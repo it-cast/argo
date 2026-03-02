@@ -41,6 +41,7 @@ export default function ARGOS() {
         go(N - 1);
       }
     };
+
     let wt: number | null = null;
     const w = (e: WheelEvent) => {
       if (wt) return;
@@ -50,8 +51,10 @@ export default function ARGOS() {
       if (e.deltaY > 20) go(s + 1);
       if (e.deltaY < -20) go(s - 1);
     };
+
     window.addEventListener('keydown', h);
     window.addEventListener('wheel', w, { passive: true });
+
     return () => {
       window.removeEventListener('keydown', h);
       window.removeEventListener('wheel', w);
@@ -83,7 +86,7 @@ export default function ARGOS() {
         background: '#FFFFFF',
         fontFamily: "'Outfit',sans-serif",
         color: I,
-        WebkitFontSmoothing: 'antialiased',
+        WebkitFontSmoothing: 'antialiased'
       }}
     >
       <style>{`
@@ -98,7 +101,7 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
 @keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(181,32,32,.4)}70%{box-shadow:0 0 0 8px rgba(181,32,32,0)}}
       `}</style>
 
-      {/* NAV BOLINHAS */}
+      {/* navegação lateral */}
       <nav
         style={{
           position: 'fixed',
@@ -108,7 +111,7 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
           display: 'flex',
           flexDirection: 'column',
           gap: 6,
-          zIndex: 999,
+          zIndex: 999
         }}
       >
         {Array.from({ length: N }).map((_, i) => (
@@ -124,13 +127,13 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
               padding: 0,
               transition: 'all .3s',
               background: i === s ? G2 : 'rgba(0,0,0,.08)',
-              boxShadow: i === s ? `0 0 8px ${G2}50` : 'none',
+              boxShadow: i === s ? `0 0 8px ${G2}50` : 'none'
             }}
           />
         ))}
       </nav>
 
-      {/* SETAS */}
+      {/* seta para cima / baixo */}
       {s > 0 && (
         <button
           onClick={() => go(s - 1)}
@@ -145,7 +148,7 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
             color: 'rgba(0,0,0,.1)',
             fontSize: 13,
             cursor: 'pointer',
-            padding: 6,
+            padding: 6
           }}
         >
           ▲
@@ -166,12 +169,14 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
             fontSize: 13,
             cursor: 'pointer',
             padding: 6,
-            animation: 'sp 2.5s ease infinite',
+            animation: 'sp 2.5s ease infinite'
           }}
         >
           ▼
         </button>
       )}
+
+      {/* contador de slides */}
       <div
         style={{
           position: 'fixed',
@@ -182,19 +187,19 @@ html,body{overflow:hidden;height:100dvh;width:100vw;background:#fff}
           fontFamily: MO,
           fontSize: 9,
           color: 'rgba(0,0,0,.1)',
-          letterSpacing: 3,
+          letterSpacing: 3
         }}
       >
         {String(s + 1).padStart(2, '0')} — {String(N).padStart(2, '0')}
       </div>
 
-      {/* SLIDE ATUAL */}
+      {/* conteúdo do slide */}
       <div
         key={k}
         style={{
           width: '100%',
           height: '100%',
-          animation: 'su .5s cubic-bezier(.22,1,.36,1) both',
+          animation: 'su .5s cubic-bezier(.22,1,.36,1) both'
         }}
       >
         <C />
@@ -230,19 +235,27 @@ const SL: React.FC<{ children: React.ReactNode; c?: boolean }> = ({ children, c 
     style={{
       width: '100%',
       height: '100dvh',
-      maxHeight: '100dvh',
       display: 'flex',
-      flexDirection: 'column',
       justifyContent: 'center',
-      padding: 'clamp(16px,4vw,32px) clamp(18px,5vw,56px)',
+      padding: 'clamp(20px,4vw,36px) clamp(20px,5vw,64px)',
       position: 'relative',
-      overflowX: 'hidden',
-      overflowY: 'auto', // importante pro mobile não cortar nada
-      background: '#fff',
-      ...(c ? { alignItems: 'center', textAlign: 'center' as const } : {}),
+      overflow: 'hidden',
+      background: '#fff'
     }}
   >
-    {children}
+    <div
+      style={{
+        width: '100%',
+        maxWidth: 1120,
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        ...(c ? { alignItems: 'center', textAlign: 'center' as const } : {})
+      }}
+    >
+      {children}
+    </div>
   </div>
 );
 
@@ -258,10 +271,18 @@ const TAG: React.FC<{ children: React.ReactNode; color?: string }> = ({ children
       letterSpacing: 4,
       textTransform: 'uppercase',
       color,
-      fontWeight: 500,
+      fontWeight: 500
     }}
   >
-    <span style={{ width: 6, height: 6, borderRadius: '50%', background: color, display: 'inline-block' }} />
+    <span
+      style={{
+        width: 6,
+        height: 6,
+        borderRadius: '50%',
+        background: color,
+        display: 'inline-block'
+      }}
+    />
     {children}
   </div>
 );
@@ -272,9 +293,9 @@ const BOX: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> 
       background: BG,
       border: `1px solid ${BD}`,
       borderRadius: 'clamp(8px,1.2vw,14px)',
-      padding: 'clamp(14px,2vw,22px) clamp(12px,1.8vw,18px)',
+      padding: 'clamp(14px,2vw,24px) clamp(12px,1.8vw,20px)',
       boxShadow: SH,
-      ...style,
+      ...style
     }}
   >
     {children}
@@ -284,33 +305,32 @@ const BOX: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> 
 const H2: React.FC<{ children: React.ReactNode; style?: React.CSSProperties }> = ({ children, style = {} }) => (
   <h2
     style={{
-      fontSize: 'clamp(24px,4.2vw,40px)',
+      fontSize: 'clamp(26px,4.2vw,48px)',
       fontWeight: 700,
       letterSpacing: -0.5,
-      lineHeight: 1.15,
+      lineHeight: 1.1,
       marginBottom: 'clamp(10px,1.5vw,16px)',
       color: I,
-      ...style,
+      ...style
     }}
   >
     {children}
   </h2>
 );
 
-// PARÁGRAFO REFORÇADO PARA MOBILE
 const P: React.FC<{ children: React.ReactNode; mb?: number | string; style?: React.CSSProperties }> = ({
   children,
   mb = 20,
-  style = {},
+  style = {}
 }) => (
   <p
     style={{
-      fontSize: 'clamp(15px,2.4vw,20px)', // mínimo 15px no mobile
-      color: I2, // mais escuro
-      fontWeight: 400, // mais robusto
+      fontSize: 'clamp(15px,1.7vw,19px)',
+      color: I2,
+      fontWeight: 400,
       lineHeight: 1.7,
       marginBottom: mb,
-      ...style,
+      ...style
     }}
   >
     {children}
@@ -323,61 +343,49 @@ function Myth() {
     <SL c>
       <div
         style={{
-          fontSize: 'clamp(36px,7vw,60px)',
-          marginBottom: 'clamp(16px,3vw,24px)',
-          animation: 'br 4.5s ease infinite',
+          fontSize: 'clamp(36px,7vw,72px)',
+          marginBottom: 'clamp(16px,3vw,32px)',
+          animation: 'br 4.5s ease infinite'
         }}
       >
         👁️
       </div>
       <div style={{ maxWidth: 720 }}>
         <P
-          mb="clamp(10px,2vw,18px)"
-          style={{
-            fontSize: 'clamp(16px,3vw,24px)',
-            color: I2,
-            lineHeight: 1.6,
-          }}
+          mb="clamp(12px,2vw,24px)"
+          style={{ fontSize: 'clamp(16px,2.8vw,32px)', color: I2, lineHeight: 1.65 }}
         >
           Na antiguidade, existia um gigante chamado <span style={{ color: G2, fontWeight: 500 }}>Argos</span>, que tinha{' '}
           <span style={{ color: G2, fontWeight: 500 }}>cem olhos</span> e nunca dormia. Onde ele estava, nada passava
           despercebido.
         </P>
         <P
-          mb="clamp(10px,2vw,18px)"
-          style={{
-            fontSize: 'clamp(16px,3vw,24px)',
-            color: I2,
-            lineHeight: 1.6,
-          }}
+          mb="clamp(12px,2vw,24px)"
+          style={{ fontSize: 'clamp(16px,2.8vw,32px)', color: I2, lineHeight: 1.65 }}
         >
-          Hoje, a nossa cidade é esse gigante. Cada morador com um celular é <span style={{ color: G2, fontWeight: 500 }}>um
-          desses olhos</span>.
+          Hoje, a nossa cidade é esse gigante. Cada morador com um celular é{' '}
+          <span style={{ color: G2, fontWeight: 500 }}>um desses olhos</span>.
         </P>
         <P
           mb={0}
-          style={{
-            fontSize: 'clamp(16px,3vw,24px)',
-            color: I3,
-            lineHeight: 1.6,
-          }}
+          style={{ fontSize: 'clamp(16px,2.8vw,32px)', color: I3, lineHeight: 1.65 }}
         >
-          E a nossa <span style={{ color: G2, fontWeight: 500 }}>Inteligência Artificial</span> é o cérebro que une todos
-          eles, garantindo que a informação certa chegue na hora certa.
+          E a nossa <span style={{ color: G2, fontWeight: 500 }}>Inteligência Artificial</span> é o cérebro que une
+          todos eles, garantindo que a informação certa chegue na hora certa.
         </P>
       </div>
       <div
         style={{
           position: 'absolute',
-          bottom: 'clamp(10px,2vw,18px)',
+          bottom: 'clamp(12px,2vw,28px)',
           left: '50%',
           transform: 'translateX(-50%)',
           fontFamily: MO,
-          fontSize: 'clamp(6px,.9vw,8px)',
+          fontSize: 'clamp(6px,.8vw,8px)',
           letterSpacing: 3,
           color: 'rgba(0,0,0,.06)',
           textTransform: 'uppercase',
-          whiteSpace: 'nowrap',
+          whiteSpace: 'nowrap'
         }}
       >
         ITCAST — Instituto de Tecnologia, Ciência e Assistência Social
@@ -389,37 +397,39 @@ function Myth() {
 /* ══ 1. SPOILER ══ */
 function Spoiler() {
   return (
-    <SL c>
+    <SL c={false}>
       <H2
         style={{
-          fontSize: 'clamp(26px,5vw,42px)',
-          lineHeight: 1.2,
-          marginBottom: 'clamp(10px,1.5vw,14px)',
+          fontSize: 'clamp(26px,5vw,56px)',
+          lineHeight: 1.15,
+          marginBottom: 'clamp(10px,1.5vw,16px)'
         }}
       >
         Um incidente. <span style={{ color: G2 }}>Múltiplos órgãos.</span>
         <br />
         Ação coordenada.
       </H2>
-      <P mb="clamp(16px,3vw,28px)" style={{ maxWidth: 520 }}>
+      <P mb="clamp(20px,3vw,28px)" style={{ maxWidth: 520 }}>
         Qualquer órgão assume. Dois ou mais atuam juntos. Todos acompanham. O cidadão vê quem está cuidando.
       </P>
+
       <div
         style={{
           position: 'relative',
           width: 'min(560px,88vw)',
-          height: 'clamp(220px,40vw,280px)',
-          marginBottom: 'clamp(8px,2vw,12px)',
+          height: 'clamp(220px,32vw,320px)',
+          margin: '0 auto'
         }}
       >
+        {/* nó central */}
         <div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%,-50%)',
-            width: 'clamp(60px,10vw,80px)',
-            height: 'clamp(60px,10vw,80px)',
+            width: 'clamp(60px,10vw,90px)',
+            height: 'clamp(60px,10vw,90px)',
             borderRadius: '50%',
             background: `linear-gradient(135deg,${BL},${BL2})`,
             display: 'flex',
@@ -427,52 +437,57 @@ function Spoiler() {
             justifyContent: 'center',
             flexDirection: 'column',
             zIndex: 5,
-            boxShadow: `0 6px 24px ${BL}18`,
+            boxShadow: `0 6px 24px ${BL}18`
           }}
         >
-          <span style={{ fontSize: 'clamp(18px,3vw,24px)' }}>🚨</span>
+          <span style={{ fontSize: 'clamp(18px,3vw,26px)' }}>🚨</span>
           <span
             style={{
               fontSize: 'clamp(7px,1vw,9px)',
               fontWeight: 700,
               color: '#fff',
-              marginTop: 2,
+              marginTop: 2
             }}
           >
             Ocorrência
           </span>
         </div>
+
+        {/* linhas conectando órgãos – ajustadas para bater melhor nos cards */}
         <svg
           width="100%"
           height="100%"
-          viewBox="0 0 560 300"
+          viewBox="0 0 560 320"
           preserveAspectRatio="xMidYMid meet"
           style={{ position: 'absolute', zIndex: 1 }}
         >
-          {[
-            [280, 150, 280, 20],
-            [280, 150, 470, 70],
-            [280, 150, 470, 230],
-            [280, 150, 90, 70],
-            [280, 150, 90, 230],
-          ].map(([x1, y1, x2, y2], i) => (
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
-          ))}
+          {/* centro -> topo */}
+          <line x1={280} y1={160} x2={280} y2={48} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
+          {/* centro -> direita topo */}
+          <line x1={280} y1={160} x2={450} y2={86} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
+          {/* centro -> direita baixo */}
+          <line x1={280} y1={160} x2={450} y2={234} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
+          {/* centro -> esquerda topo */}
+          <line x1={280} y1={160} x2={110} y2={86} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
+          {/* centro -> esquerda baixo */}
+          <line x1={280} y1={160} x2={110} y2={234} stroke={BD2} strokeWidth={1} strokeDasharray="4 3" />
         </svg>
+
+        {/* órgãos */}
         {[
-          { icon: '🚒', name: 'Bombeiros', s: { left: '50%', top: 0, transform: 'translateX(-50%)' } as React.CSSProperties },
-          { icon: '🚔', name: 'Pol. Militar', s: { right: '0%', top: '14%' } as React.CSSProperties },
-          { icon: '🛡️', name: 'Defesa Civil', s: { right: '0%', bottom: '4%' } as React.CSSProperties },
-          { icon: '🔍', name: 'Pol. Civil', s: { left: '0%', top: '14%' } as React.CSSProperties },
-          { icon: '🏛️', name: 'Guarda Civil', s: { left: '0%', bottom: '4%' } as React.CSSProperties },
+          { icon: '🚒', name: 'Bombeiros', s: { left: '50%', top: '6%', transform: 'translateX(-50%)' } as React.CSSProperties },
+          { icon: '🚔', name: 'Pol. Militar', s: { right: '3%', top: '18%' } as React.CSSProperties },
+          { icon: '🛡️', name: 'Defesa Civil', s: { right: '3%', bottom: '8%' } as React.CSSProperties },
+          { icon: '🔍', name: 'Pol. Civil', s: { left: '3%', top: '18%' } as React.CSSProperties },
+          { icon: '🏛️', name: 'Guarda Civil', s: { left: '3%', bottom: '8%' } as React.CSSProperties }
         ].map((o, i) => (
           <div
             key={i}
             style={{
               position: 'absolute',
               ...o.s,
-              width: 'clamp(54px,9vw,76px)',
-              height: 'clamp(48px,8vw,68px)',
+              width: 'clamp(54px,8vw,76px)',
+              height: 'clamp(48px,7vw,68px)',
               borderRadius: 'clamp(8px,1.2vw,14px)',
               background: BG,
               border: `1px solid ${BD}`,
@@ -481,7 +496,7 @@ function Spoiler() {
               alignItems: 'center',
               justifyContent: 'center',
               zIndex: 3,
-              boxShadow: SH,
+              boxShadow: SH
             }}
           >
             <span style={{ fontSize: 'clamp(16px,2.5vw,22px)' }}>{o.icon}</span>
@@ -490,13 +505,14 @@ function Spoiler() {
                 fontSize: 'clamp(7px,1vw,10px)',
                 color: I3,
                 marginTop: 2,
-                fontWeight: 500,
+                fontWeight: 500
               }}
             >
               {o.name}
             </span>
           </div>
         ))}
+
         <div
           style={{
             position: 'absolute',
@@ -507,7 +523,7 @@ function Spoiler() {
             color: I4,
             fontFamily: MO,
             letterSpacing: 1,
-            whiteSpace: 'nowrap',
+            whiteSpace: 'nowrap'
           }}
         >
           + SAMU, Vigilância, Conselhos, ...
@@ -525,8 +541,8 @@ function Feed() {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
-          gap: 'clamp(20px,3.5vw,40px)',
-          alignItems: 'center',
+          gap: 'clamp(24px,4vw,52px)',
+          alignItems: 'center'
         }}
       >
         <div>
@@ -539,11 +555,14 @@ function Feed() {
           <P mb={12}>
             Cada ocorrência vira um post no feed do bairro. Cidadãos comentam. Órgãos respondem publicamente. Quando o
             Bombeiro posta{' '}
-            <em style={{ color: I2, fontStyle: 'normal', fontWeight: 500 }}>"Viatura a caminho, monitorando via Argos"</em>, ele
-            valida a plataforma inteira.
+            <em style={{ color: I2, fontStyle: 'normal', fontWeight: 500 }}>
+              "Viatura a caminho, monitorando via Argos"
+            </em>
+            , ele valida a plataforma inteira.
           </P>
           <P mb={20} style={{ color: I2, fontWeight: 500 }}>
-            O cidadão deixa de ser "alguém que reclama" e se torna <strong style={{ color: G2 }}>um dos olhos de Argos</strong>.
+            O cidadão deixa de ser "alguém que reclama" e se torna{' '}
+            <strong style={{ color: G2 }}>um dos olhos de Argos</strong>.
           </P>
           <div style={{ display: 'flex', gap: 'clamp(12px,2vw,18px)', flexWrap: 'wrap' }}>
             {(
@@ -551,7 +570,7 @@ function Feed() {
                 ['Feed', 'por bairro'],
                 ['Comentários', 'cidadão + órgão'],
                 ['Curtidas', 'engajamento'],
-                ['Status', 'transparente'],
+                ['Status', 'transparente']
               ] as const
             ).map(([n, d], i) => (
               <div key={i}>
@@ -559,15 +578,15 @@ function Feed() {
                   style={{
                     fontSize: 'clamp(13px,1.4vw,15px)',
                     fontWeight: 700,
-                    color: PU,
+                    color: PU
                   }}
                 >
                   {n}
                 </div>
                 <div
                   style={{
-                    fontSize: 'clamp(11px,1.2vw,13px)',
-                    color: I3,
+                    fontSize: 'clamp(10px,1.1vw,12px)',
+                    color: I3
                   }}
                 >
                   {d}
@@ -576,6 +595,8 @@ function Feed() {
             ))}
           </div>
         </div>
+
+        {/* cards do feed */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: 'min(272px, 100%)', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
@@ -588,11 +609,11 @@ function Feed() {
                 st: 'EM ATENDIMENTO',
                 cm: {
                   f: '🚒 Bombeiros',
-                  t: 'Equipe Alpha deslocada. ETA 4 min. Via Argos.',
+                  t: 'Equipe Alpha deslocada. ETA 4 min. Via Argos.'
                 },
                 lk: 12,
                 co: 3,
-                tm: '5 min',
+                tm: '5 min'
               },
               {
                 u: 'Carlos R.',
@@ -603,8 +624,8 @@ function Feed() {
                 st: '2 ÓRGÃOS',
                 lk: 24,
                 co: 7,
-                tm: '18 min',
-              },
+                tm: '18 min'
+              }
             ].map((p, i) => (
               <BOX key={i} style={{ padding: 13 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
@@ -621,7 +642,7 @@ function Feed() {
                         justifyContent: 'center',
                         fontSize: 11,
                         fontWeight: 600,
-                        color: I2,
+                        color: I2
                       }}
                     >
                       {p.u[0]}
@@ -639,22 +660,13 @@ function Feed() {
                       borderRadius: 4,
                       fontWeight: 500,
                       color: I2,
-                      border: `1px solid ${BD}`,
+                      border: `1px solid ${BD}`
                     }}
                   >
                     {p.tp}
                   </span>
                 </div>
-                <p
-                  style={{
-                    fontSize: 11,
-                    color: I2,
-                    lineHeight: 1.5,
-                    marginBottom: 7,
-                  }}
-                >
-                  {p.tx}
-                </p>
+                <p style={{ fontSize: 11, color: I2, lineHeight: 1.5, marginBottom: 7 }}>{p.tx}</p>
                 <div
                   style={{
                     fontSize: 9,
@@ -667,7 +679,7 @@ function Feed() {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    border: `1px solid ${p.oc}12`,
+                    border: `1px solid ${p.oc}12`
                   }}
                 >
                   <span>{p.og}</span>
@@ -676,7 +688,7 @@ function Feed() {
                       fontSize: 8,
                       background: `${p.oc}0A`,
                       padding: '2px 5px',
-                      borderRadius: 3,
+                      borderRadius: 3
                     }}
                   >
                     {p.st}
@@ -689,7 +701,7 @@ function Feed() {
                       borderRadius: 5,
                       padding: 6,
                       marginBottom: 6,
-                      border: `1px solid ${BD}`,
+                      border: `1px solid ${BD}`
                     }}
                   >
                     <div style={{ fontSize: 9, color: I2, lineHeight: 1.4 }}>
@@ -721,17 +733,20 @@ function Dashboard() {
       <P mb="clamp(10px,1.5vw,16px)">
         Cada órgão monitora sua área com polígonos de abrangência, lista de ocorrências e alertas sonoros em tempo real.
       </P>
+
       <BOX style={{ padding: 'clamp(8px,1.2vw,12px)', boxShadow: SH2 }}>
-        <div
-          style={{
-            display: 'flex',
-            gap: 5,
-            marginBottom: 10,
-            alignItems: 'center',
-          }}
-        >
+        <div style={{ display: 'flex', gap: 5, marginBottom: 10, alignItems: 'center' }}>
           {['#FF5F57', '#FFBD2E', '#28C840'].map((c, i) => (
-            <span key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: c, display: 'inline-block' }} />
+            <span
+              key={i}
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: c,
+                display: 'inline-block'
+              }}
+            />
           ))}
           <div
             style={{
@@ -742,7 +757,7 @@ function Dashboard() {
               padding: '4px 10px',
               fontSize: 9,
               color: I3,
-              fontFamily: MO,
+              fontFamily: MO
             }}
           >
             argos.app/painel — Corpo de Bombeiros
@@ -757,7 +772,7 @@ function Dashboard() {
               borderRadius: 4,
               fontSize: 8,
               color: RD,
-              fontWeight: 600,
+              fontWeight: 600
             }}
           >
             <span
@@ -767,32 +782,28 @@ function Dashboard() {
                 borderRadius: '50%',
                 background: RD,
                 display: 'inline-block',
-                animation: 'dp 1.5s ease infinite',
+                animation: 'dp 1.5s ease infinite'
               }}
             />
             LIVE
           </span>
         </div>
+
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
-            gap: 14,
+            gap: 14
           }}
         >
+          {/* coluna da lista */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 5,
-              }}
-            >
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
               {[
                 { n: '7', l: 'Ativas', c: RD },
                 { n: '3', l: 'Assumidas', c: AM },
                 { n: '12', l: 'Hoje', c: BL },
-                { n: '2m14s', l: 'Resp. Média', c: GR },
+                { n: '2m14s', l: 'Resp. Média', c: GR }
               ].map((x, i) => (
                 <div
                   key={i}
@@ -801,7 +812,7 @@ function Dashboard() {
                     borderRadius: 8,
                     padding: '7px 8px',
                     textAlign: 'center',
-                    border: `1px solid ${BD}`,
+                    border: `1px solid ${BD}`
                   }}
                 >
                   <div
@@ -809,23 +820,16 @@ function Dashboard() {
                       fontFamily: MO,
                       fontSize: 16,
                       fontWeight: 700,
-                      color: x.c,
+                      color: x.c
                     }}
                   >
                     {x.n}
                   </div>
-                  <div
-                    style={{
-                      fontSize: 8,
-                      color: I3,
-                      marginTop: 1,
-                    }}
-                  >
-                    {x.l}
-                  </div>
+                  <div style={{ fontSize: 8, color: I3, marginTop: 1 }}>{x.l}</div>
                 </div>
               ))}
             </div>
+
             <div
               style={{
                 fontSize: 11,
@@ -834,7 +838,7 @@ function Dashboard() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 5,
-                marginTop: 2,
+                marginTop: 2
               }}
             >
               🔔 Ocorrências{' '}
@@ -844,18 +848,19 @@ function Dashboard() {
                   color: '#fff',
                   fontSize: 8,
                   padding: '1px 5px',
-                  borderRadius: 6,
+                  borderRadius: 6
                 }}
               >
                 7
               </span>
             </div>
+
             {[
               { t: '🔥 Incêndio', loc: 'R. das Flores, 280', tm: '2 min', st: 'NOVA', c: RD, hot: true },
               { t: '🚗 Acidente', loc: 'Av. Principal × R. 7', tm: '8 min', st: 'ASSUMIDA', c: AM },
               { t: '🎭 Atitude Suspeita', loc: 'Praça Central', tm: '15 min', st: 'ANDAMENTO', c: BL },
               { t: '🚑 Emergência', loc: 'R. do Porto, 45', tm: '22 min', st: 'PM + SAMU', c: AM },
-              { t: '📢 Distúrbio', loc: 'Av. Litorânea', tm: '31 min', st: 'RESOLVIDA', c: GR },
+              { t: '📢 Distúrbio', loc: 'Av. Litorânea', tm: '31 min', st: 'RESOLVIDA', c: GR }
             ].map((r, i) => (
               <div
                 key={i}
@@ -863,12 +868,10 @@ function Dashboard() {
                   background: r.hot ? `${r.c}06` : BG,
                   borderRadius: 7,
                   padding: '7px 9px',
+                  borderLeft: `3px solid ${r.c}`,
+                  border: `1px solid ${r.hot ? `${r.c}12` : BD}`,
                   borderLeftWidth: 3,
-                  borderLeftColor: r.c,
-                  borderLeftStyle: 'solid',
-                  borderTop: `1px solid ${r.hot ? `${r.c}12` : BD}`,
-                  borderRight: `1px solid ${r.hot ? `${r.c}12` : BD}`,
-                  borderBottom: `1px solid ${r.hot ? `${r.c}12` : BD}`,
+                  borderLeftColor: r.c
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -884,7 +887,7 @@ function Dashboard() {
                       fontSize: 7,
                       fontWeight: 600,
                       background: `${r.c}08`,
-                      color: r.c,
+                      color: r.c
                     }}
                   >
                     {r.st}
@@ -893,14 +896,16 @@ function Dashboard() {
               </div>
             ))}
           </div>
+
+          {/* mapa */}
           <div
             style={{
               background: 'linear-gradient(145deg,#E3E8F2,#ECF0F8)',
               borderRadius: 12,
               position: 'relative',
               overflow: 'hidden',
-              minHeight: 'clamp(220px,32vw,300px)',
-              border: `1px solid ${BD}`,
+              minHeight: 'clamp(200px,28vw,300px)',
+              border: `1px solid ${BD}`
             }}
           >
             <div
@@ -917,14 +922,14 @@ function Dashboard() {
                 fontSize: 8,
                 zIndex: 5,
                 border: `1px solid ${BD}`,
-                boxShadow: SH,
+                boxShadow: SH
               }}
             >
               {[
                 { c: RD, l: 'Nova' },
                 { c: AM, l: 'Assumida' },
                 { c: BL, l: 'Andamento' },
-                { c: GR, l: 'Resolvida' },
+                { c: GR, l: 'Resolvida' }
               ].map((x, i) => (
                 <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 3, color: I3 }}>
                   <span
@@ -933,13 +938,14 @@ function Dashboard() {
                       height: 6,
                       borderRadius: '50%',
                       background: x.c,
-                      display: 'inline-block',
+                      display: 'inline-block'
                     }}
                   />
                   {x.l}
                 </span>
               ))}
             </div>
+
             <div
               style={{
                 position: 'absolute',
@@ -952,11 +958,12 @@ function Dashboard() {
                 fontSize: 7,
                 color: BL,
                 border: `1px solid ${BL}18`,
-                zIndex: 5,
+                zIndex: 5
               }}
             >
               📍 Abrangência: Zona Sul
             </div>
+
             <svg
               width="100%"
               height="100%"
@@ -979,6 +986,7 @@ function Dashboard() {
                 opacity={0.65}
               />
             </svg>
+
             <svg
               width="100%"
               height="100%"
@@ -989,12 +997,13 @@ function Dashboard() {
               <path d="M 0 140 Q 140 120 280 150 T 560 130" stroke={I} strokeWidth={3} fill="none" />
               <path d="M 230 0 Q 240 110 220 300" stroke={I} strokeWidth={2} fill="none" />
             </svg>
+
             {[
               { x: '17%', y: '24%', c: RD, t: '🔥', p: true },
               { x: '44%', y: '50%', c: AM, t: '🚗' },
               { x: '62%', y: '22%', c: BL, t: '🎭' },
               { x: '34%', y: '68%', c: AM, t: '🚑' },
-              { x: '78%', y: '50%', c: GR, t: '✅' },
+              { x: '78%', y: '50%', c: GR, t: '✅' }
             ].map((m, i) => (
               <div key={i}>
                 {m.p && (
@@ -1007,7 +1016,7 @@ function Dashboard() {
                       height: 32,
                       borderRadius: '50%',
                       border: `2px solid ${m.c}`,
-                      animation: 'rp 2.5s ease infinite',
+                      animation: 'rp 2.5s ease infinite'
                     }}
                   />
                 )}
@@ -1027,13 +1036,14 @@ function Dashboard() {
                     fontSize: 12,
                     transform: 'translate(-50%,-50%)',
                     zIndex: 2,
-                    boxShadow: `0 2px 8px ${m.c}20`,
+                    boxShadow: `0 2px 8px ${m.c}20`
                   }}
                 >
                   {m.t}
                 </div>
               </div>
             ))}
+
             <div
               style={{
                 position: 'absolute',
@@ -1042,7 +1052,7 @@ function Dashboard() {
                 fontSize: 7,
                 color: I4,
                 opacity: 0.5,
-                fontFamily: MO,
+                fontFamily: MO
               }}
             >
               Mapbox GL + PostGIS
@@ -1062,8 +1072,8 @@ function AppSlide() {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          gap: 'clamp(20px,3.5vw,40px)',
-          alignItems: 'center',
+          gap: 'clamp(24px,4vw,52px)',
+          alignItems: 'center'
         }}
       >
         <div>
@@ -1085,15 +1095,15 @@ function AppSlide() {
                 ['🔒', 'Denúncia anônima com sigilo total'],
                 ['🏷️', '12 categorias de ocorrência'],
                 ['🏘️', 'Feed do bairro em tempo real'],
-                ['💬', 'Comentários cidadãos + órgãos'],
+                ['💬', 'Comentários cidadãos + órgãos']
               ] as const
             ).map(([ic, tx], i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 'clamp(14px,1.8vw,18px)', width: 24, textAlign: 'center' }}>{ic}</span>
+                <span style={{ fontSize: 'clamp(14px,1.6vw,18px)', width: 24, textAlign: 'center' }}>{ic}</span>
                 <span
                   style={{
-                    fontSize: 'clamp(13px,1.6vw,16px)',
-                    color: I2,
+                    fontSize: 'clamp(13px,1.5vw,16px)',
+                    color: I2
                   }}
                 >
                   {tx}
@@ -1102,16 +1112,18 @@ function AppSlide() {
             ))}
           </div>
         </div>
+
+        {/* mockup do app */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             style={{
               width: 'clamp(200px,30vw,252px)',
-              height: 'clamp(400px,62vw,504px)',
+              height: 'clamp(400px,60vw,504px)',
               borderRadius: 'clamp(20px,3vw,32px)',
               background: 'linear-gradient(180deg,#EEEEE8,#E4E4DE)',
               border: `2px solid ${BD2}`,
               padding: 'clamp(6px,1vw,9px)',
-              boxShadow: SH2,
+              boxShadow: SH2
             }}
           >
             <div
@@ -1121,7 +1133,7 @@ function AppSlide() {
                 background: BG,
                 borderRadius: 10,
                 margin: '0 auto 8px',
-                border: `1px solid ${BD}`,
+                border: `1px solid ${BD}`
               }}
             />
             <div
@@ -1133,14 +1145,14 @@ function AppSlide() {
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'clamp(5px,.8vw,8px)',
+                gap: 'clamp(5px,.8vw,8px)'
               }}
             >
               <div
                 style={{
                   fontSize: 'clamp(11px,1.3vw,13px)',
                   fontWeight: 700,
-                  color: I,
+                  color: I
                 }}
               >
                 Nova Ocorrência
@@ -1156,7 +1168,7 @@ function AppSlide() {
                       borderRadius: 6,
                       fontSize: 'clamp(7px,.9vw,9px)',
                       color: i === 0 ? BL : I3,
-                      fontWeight: i === 0 ? 600 : 400,
+                      fontWeight: i === 0 ? 600 : 400
                     }}
                   >
                     {c}
@@ -1171,7 +1183,7 @@ function AppSlide() {
                   fontSize: 9,
                   color: I4,
                   border: `1px solid ${BD}`,
-                  minHeight: 30,
+                  minHeight: 30
                 }}
               >
                 Descreva o que acontece...
@@ -1184,7 +1196,7 @@ function AppSlide() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: `1px dashed ${BD}`,
+                  border: `1px dashed ${BD}`
                 }}
               >
                 <span style={{ fontSize: 9, color: I4 }}>📷 Toque para adicionar foto</span>
@@ -1197,19 +1209,11 @@ function AppSlide() {
                   padding: 6,
                   background: `${GR}06`,
                   borderRadius: 6,
-                  border: `1px solid ${GR}12`,
+                  border: `1px solid ${GR}12`
                 }}
               >
                 <span style={{ fontSize: 11 }}>📍</span>
-                <span
-                  style={{
-                    fontSize: 9,
-                    color: GR,
-                    fontWeight: 500,
-                  }}
-                >
-                  GPS capturado • Centro
-                </span>
+                <span style={{ fontSize: 9, color: GR, fontWeight: 500 }}>GPS capturado • Centro</span>
               </div>
               <div
                 style={{
@@ -1218,7 +1222,7 @@ function AppSlide() {
                   gap: 5,
                   padding: 5,
                   background: BG,
-                  borderRadius: 6,
+                  borderRadius: 6
                 }}
               >
                 <div
@@ -1227,7 +1231,7 @@ function AppSlide() {
                     height: 13,
                     borderRadius: 7,
                     background: BL2,
-                    position: 'relative',
+                    position: 'relative'
                   }}
                 >
                   <div
@@ -1238,7 +1242,7 @@ function AppSlide() {
                       background: '#fff',
                       position: 'absolute',
                       top: 2,
-                      right: 2,
+                      right: 2
                     }}
                   />
                 </div>
@@ -1254,7 +1258,7 @@ function AppSlide() {
                   fontWeight: 700,
                   color: '#fff',
                   marginTop: 'auto',
-                  boxShadow: `0 4px 12px ${BL}20`,
+                  boxShadow: `0 4px 12px ${BL}20`
                 }}
               >
                 Enviar Alerta
@@ -1275,16 +1279,15 @@ function Vision() {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-          gap: 'clamp(20px,3.5vw,40px)',
-          alignItems: 'center',
+          gap: 'clamp(24px,4vw,52px)',
+          alignItems: 'center'
         }}
       >
         <div>
           <TAG color={BL2}>Visão</TAG>
           <H2>
             De rede social da segurança
-            <br />
-            para <span style={{ color: G2 }}>plataforma de cidade inteligente.</span>
+            <br />para <span style={{ color: G2 }}>plataforma de cidade inteligente.</span>
           </H2>
           <P mb={20}>
             Argos começa como os olhos da cidade e evolui para o cérebro que conecta cidadãos, órgãos e inteligência
@@ -1296,13 +1299,9 @@ function Vision() {
             { ic: '🤖', t: 'IA para Triagem', d: 'Classificação automática de ocorrências por prioridade e tipo.' },
             { ic: '🗺️', t: 'Heatmap Público', d: 'Mapa anonimizado de incidentes por região para gestores e cidadãos.' },
             { ic: '🏆', t: 'Gamificação', d: "Pontos e badges. 'Olho de Argos do Mês.' Engajamento que escala." },
-            {
-              ic: '📊',
-              t: 'Relatórios Políticos',
-              d: 'Dados por região para secretarias e vereadores em tempo real.',
-            },
+            { ic: '📊', t: 'Relatórios Políticos', d: 'Dados por região para secretarias e vereadores em tempo real.' },
             { ic: '🔗', t: 'Integração 190/193', d: 'API bidirecional com canais existentes. Zero duplicidade.' },
-            { ic: '📡', t: 'IoT e Câmeras', d: 'Sensores e câmeras alimentam Argos automaticamente.' },
+            { ic: '📡', t: 'IoT e Câmeras', d: 'Sensores e câmeras alimentam Argos automaticamente.' }
           ].map((x, i) => (
             <div key={i} style={{ display: 'flex', gap: 'clamp(8px,1.2vw,14px)', alignItems: 'flex-start' }}>
               <div
@@ -1311,7 +1310,7 @@ function Vision() {
                   width: 32,
                   textAlign: 'center',
                   flexShrink: 0,
-                  marginTop: 2,
+                  marginTop: 2
                 }}
               >
                 {x.ic}
@@ -1322,7 +1321,7 @@ function Vision() {
                     fontSize: 'clamp(13px,1.5vw,16px)',
                     fontWeight: 700,
                     color: I,
-                    marginBottom: 3,
+                    marginBottom: 3
                   }}
                 >
                   {x.t}
@@ -1330,8 +1329,8 @@ function Vision() {
                 <div
                   style={{
                     fontSize: 'clamp(12px,1.3vw,14px)',
-                    color: I3,
-                    lineHeight: 1.5,
+                    color: I2,
+                    lineHeight: 1.5
                   }}
                 >
                   {x.d}
@@ -1350,9 +1349,10 @@ function Impact() {
   return (
     <SL c>
       <TAG color={GR}>Impacto</TAG>
-      <H2 style={{ marginBottom: 'clamp(14px,2.5vw,24px)' }}>
+      <H2 style={{ marginBottom: 'clamp(16px,3vw,32px)' }}>
         Números que <span style={{ color: G2 }}>transformam uma gestão</span>
       </H2>
+
       <div
         style={{
           display: 'grid',
@@ -1360,41 +1360,41 @@ function Impact() {
           gap: 'clamp(8px,1.2vw,14px)',
           width: '100%',
           maxWidth: 820,
-          marginBottom: 'clamp(12px,2vw,22px)',
+          marginBottom: 'clamp(14px,2.5vw,28px)'
         }}
       >
         {[
           { n: '-70%', l: 'Tempo de Resposta', d: 'GPS + alertas instantâneos', c: BL2 },
           { n: '+300%', l: 'Volume de Registros', d: 'Mais acessível que ligações', c: GR },
           { n: '100%', l: 'Rastreabilidade', d: 'Histórico completo auditável', c: G2 },
-          { n: '24/7', l: 'Disponibilidade', d: 'Canal sempre aberto', c: PU },
+          { n: '24/7', l: 'Disponibilidade', d: 'Canal sempre aberto', c: PU }
         ].map((x, i) => (
-          <BOX key={i} style={{ textAlign: 'center', padding: 14, borderTop: `2px solid ${x.c}18` }}>
+          <BOX key={i} style={{ textAlign: 'center', borderTop: `2px solid ${x.c}18` }}>
             <div
               style={{
                 fontFamily: MO,
-                fontSize: 'clamp(22px,3.2vw,30px)',
+                fontSize: 'clamp(24px,3.5vw,36px)',
                 fontWeight: 700,
                 color: x.c,
-                marginBottom: 6,
+                marginBottom: 6
               }}
             >
               {x.n}
             </div>
             <div
               style={{
-                fontSize: 'clamp(12px,1.4vw,14px)',
+                fontSize: 'clamp(11px,1.3vw,14px)',
                 fontWeight: 700,
                 color: I,
-                marginBottom: 3,
+                marginBottom: 3
               }}
             >
               {x.l}
             </div>
             <div
               style={{
-                fontSize: 'clamp(11px,1.2vw,13px)',
-                color: I3,
+                fontSize: 'clamp(10px,1.1vw,12px)',
+                color: I3
               }}
             >
               {x.d}
@@ -1402,13 +1402,14 @@ function Impact() {
           </BOX>
         ))}
       </div>
+
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-          gap: 'clamp(10px,1.5vw,16px)',
+          gap: 'clamp(10px,1.5vw,18px)',
           width: '100%',
-          maxWidth: 820,
+          maxWidth: 820
         }}
       >
         <BOX style={{ textAlign: 'left', padding: 16 }}>
@@ -1417,7 +1418,7 @@ function Impact() {
               fontSize: 'clamp(13px,1.4vw,15px)',
               fontWeight: 700,
               color: I,
-              marginBottom: 8,
+              marginBottom: 8
             }}
           >
             🏛️ Para a Gestão Pública
@@ -1426,7 +1427,7 @@ function Impact() {
             style={{
               fontSize: 'clamp(12px,1.3vw,14px)',
               color: I2,
-              lineHeight: 1.8,
+              lineHeight: 1.8
             }}
           >
             <span style={{ color: GR }}>✓</span> Dados geolocalizados para decisões estratégicas
@@ -1444,7 +1445,7 @@ function Impact() {
               fontSize: 'clamp(13px,1.4vw,15px)',
               fontWeight: 700,
               color: I,
-              marginBottom: 8,
+              marginBottom: 8
             }}
           >
             👥 Para o Cidadão
@@ -1453,7 +1454,7 @@ function Impact() {
             style={{
               fontSize: 'clamp(12px,1.3vw,14px)',
               color: I2,
-              lineHeight: 1.8,
+              lineHeight: 1.8
             }}
           >
             <span style={{ color: GR }}>✓</span> Voz direta e imediata para reportar
@@ -1476,16 +1477,16 @@ function Reveal() {
     <SL c>
       <div
         style={{
-          marginBottom: 20,
+          marginBottom: 20
         }}
       >
         <span
           style={{
             fontFamily: SF,
-            fontSize: 'clamp(40px,7vw,70px)',
+            fontSize: 'clamp(40px,8vw,96px)',
             fontWeight: 400,
             letterSpacing: 3,
-            color: I,
+            color: I
           }}
         >
           A<span style={{ color: G2 }}>R</span>GOS
@@ -1496,25 +1497,24 @@ function Reveal() {
           width: 48,
           height: 1,
           background: `${G2}25`,
-          margin: '0 auto 18px',
+          margin: '0 auto 18px'
         }}
       />
       <p
         style={{
           fontFamily: SF,
-          fontSize: 'clamp(16px,2.6vw,22px)',
+          fontSize: 'clamp(16px,2.5vw,24px)',
           color: G,
           fontWeight: 400,
           fontStyle: 'italic',
           letterSpacing: 0.3,
           marginBottom: 24,
-          textAlign: 'center',
-          maxWidth: 520,
+          textAlign: 'center'
         }}
       >
         A inteligência de mil olhos protegendo o que é nosso.
       </p>
-      <P mb={0} style={{ maxWidth: 520 }}>
+      <P mb={0} style={{ maxWidth: 520, textAlign: 'center' }}>
         A primeira rede social da segurança pública do Brasil. Cada cidadão é um olho. Cada órgão, um braço. A
         inteligência artificial, o cérebro. Juntos, uma rede que nunca dorme.
       </P>
@@ -1528,9 +1528,9 @@ function Closing() {
     <SL c>
       <div
         style={{
-          fontSize: 'clamp(32px,6vw,52px)',
-          marginBottom: 'clamp(12px,2vw,20px)',
-          animation: 'br 4.5s ease infinite',
+          fontSize: 'clamp(32px,6vw,60px)',
+          marginBottom: 'clamp(12px,2vw,24px)',
+          animation: 'br 4.5s ease infinite'
         }}
       >
         👁️
@@ -1538,14 +1538,14 @@ function Closing() {
       <p
         style={{
           fontFamily: SF,
-          fontSize: 'clamp(18px,3.4vw,30px)',
+          fontSize: 'clamp(18px,3.2vw,32px)',
           fontWeight: 400,
           lineHeight: 1.45,
           fontStyle: 'italic',
           color: I3,
           maxWidth: 680,
           textAlign: 'center',
-          marginBottom: 'clamp(8px,1.5vw,14px)',
+          marginBottom: 'clamp(8px,1.5vw,16px)'
         }}
       >
         "Argos tinha <em style={{ fontStyle: 'normal', color: G2, fontWeight: 600 }}>cem olhos</em>. A sua cidade tem{' '}
@@ -1554,25 +1554,26 @@ function Closing() {
       <h2
         style={{
           fontFamily: SF,
-          fontSize: 'clamp(20px,4vw,34px)',
+          fontSize: 'clamp(20px,4vw,40px)',
           fontWeight: 400,
           lineHeight: 1.2,
           color: I,
-          marginBottom: 'clamp(18px,3vw,30px)',
-          textAlign: 'center',
+          marginBottom: 'clamp(20px,3.5vw,40px)',
+          textAlign: 'center'
         }}
       >
         Argos nunca dorme.
         <br />
         <span style={{ color: G2 }}>Sua cidade também.</span>
       </h2>
+
       <div
         style={{
           display: 'flex',
           gap: 'clamp(8px,1.2vw,14px)',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          marginBottom: 'clamp(22px,4vw,40px)',
+          marginBottom: 'clamp(24px,4vw,44px)'
         }}
       >
         <a
@@ -1594,7 +1595,7 @@ function Closing() {
             textDecoration: 'none',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 8,
+            gap: 8
           }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF">
@@ -1603,7 +1604,7 @@ function Closing() {
           Agendar Demonstração
         </a>
         <a
-          href="mailto:contato@itcast.com.br?subject=Proposta%20Técnica%20-%20Argos"
+          href="mailto:contato@itcast.com.br?subject=Proposta%20T%C3%A9cnica%20-%20Argos"
           style={{
             padding: 'clamp(10px,1.5vw,16px) clamp(20px,3vw,40px)',
             background: 'transparent',
@@ -1614,20 +1615,21 @@ function Closing() {
             fontWeight: 500,
             cursor: 'pointer',
             fontFamily: 'inherit',
-            textDecoration: 'none',
+            textDecoration: 'none'
           }}
         >
           Proposta Técnica
         </a>
       </div>
+
       <div
         style={{
           display: 'flex',
-          gap: 'clamp(14px,2.5vw,24px)',
+          gap: 'clamp(14px,2.5vw,28px)',
           fontSize: 'clamp(12px,1.5vw,16px)',
           color: I3,
           flexWrap: 'wrap',
-          justifyContent: 'center',
+          justifyContent: 'center'
         }}
       >
         <span>📧 contato@itcast.com.br</span>
@@ -1636,14 +1638,14 @@ function Closing() {
       <div
         style={{
           position: 'absolute',
-          bottom: 'clamp(10px,2vw,18px)',
+          bottom: 'clamp(12px,2vw,22px)',
           left: '50%',
           transform: 'translateX(-50%)',
           fontSize: 8,
           color: 'rgba(0,0,0,.06)',
           letterSpacing: 2,
           textTransform: 'uppercase',
-          whiteSpace: 'nowrap',
+          whiteSpace: 'nowrap'
         }}
       >
         ITCAST
