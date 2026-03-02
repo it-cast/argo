@@ -107,17 +107,57 @@ export default function ARGOS() {
     >
       <style>{`
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}html,body{overflow:hidden;height:100vh;width:100vw}::selection{background:rgba(184,134,11,.12)}
+
+/* reset global */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* IMPORTANTE:
+   sobrescreve o estilo padrão do Vite no #root
+   (max-width, margin:auto, padding, etc) para remover a margem à esquerda
+   e fazer o app ocupar a viewport inteira */
+html, body, #root{
+  width:100vw;
+  height:100vh;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
+
+::selection{background:rgba(184,134,11,.12)}
+
 @keyframes su{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes br{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.06);opacity:.8}}
 @keyframes rp{0%{transform:translate(-50%,-50%) scale(1);opacity:.4}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes sp{0%,100%{opacity:.25}50%{opacity:.08}}
 @keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(181,32,32,.4)}70%{box-shadow:0 0 0 8px rgba(181,32,32,0)}}
-.sl{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:36px 64px;position:relative;overflow:hidden;background:#FFFFFF}
+
+.sl{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:36px 64px;
+  position:relative;
+  overflow:hidden;
+  background:#FFFFFF;
+}
 .sl.c{align-items:center;text-align:center}
-@media(max-width:960px){.sl{padding:28px 20px !important}.rg{grid-template-columns:1fr !important}.hm{display:none !important}.po{order:-1;margin-bottom:16px}}
-@media(max-width:600px){.g4r{grid-template-columns:1fr 1fr !important}}
+
+@media(max-width:960px){
+  .sl{padding:28px 20px !important}
+  .rg{grid-template-columns:1fr !important}
+  .hm{display:none !important}
+  .po{order:-1;margin-bottom:16px}
+}
+@media(max-width:600px){
+  .g4r{grid-template-columns:1fr 1fr !important}
+}
       `}</style>
 
       {/* Navegação lateral */}
@@ -2032,9 +2072,8 @@ function Closing() {
           whiteSpace: 'nowrap',
         }}
       >
-        ITCAST — Instituto de Tecnologia, Ciência e Assistência Social
+        ITCAST
       </div>
     </SL>
   );
 }
-
