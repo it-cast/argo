@@ -96,8 +96,9 @@ export default function ARGOS() {
       onTouchEnd={te}
       style={{
         width: '100%',
-        height: '100vh',
-        overflow: 'hidden',
+        minHeight: '100vh',
+        overflowX: 'hidden',
+        overflowY: 'auto',
         position: 'relative',
         background: '#FFFFFF',
         fontFamily: "'Outfit',sans-serif",
@@ -108,7 +109,7 @@ export default function ARGOS() {
       <style>{`
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{overflow:hidden;height:100vh;width:100%}
+html,body{margin:0;padding:0;background:#FFFFFF;}
 ::selection{background:rgba(184,134,11,.12)}
 @keyframes su{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes br{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.06);opacity:.8}}
@@ -116,7 +117,7 @@ html,body{overflow:hidden;height:100vh;width:100%}
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes sp{0%,100%{opacity:.25}50%{opacity:.08}}
 @keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(181,32,32,.4)}70%{box-shadow:0 0 0 8px rgba(181,32,32,0)}}
-.sl{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:36px 64px;position:relative;overflow:hidden;background:#FFFFFF}
+.sl{width:100%;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:36px 64px;position:relative;overflow:hidden;background:#FFFFFF}
 .sl.c{align-items:center;text-align:center}
 @media(max-width:960px){.sl{padding:28px 20px !important}.rg{grid-template-columns:1fr !important}.hm{display:none !important}.po{order:-1;margin-bottom:16px}}
 @media(max-width:600px){.g4r{grid-template-columns:1fr 1fr !important}}
@@ -221,7 +222,7 @@ html,body{overflow:hidden;height:100vh;width:100%}
         key={k}
         style={{
           width: '100%',
-          height: '100%',
+          minHeight: '100vh',
           animation: 'su .5s cubic-bezier(.22,1,.36,1) both',
         }}
       >
@@ -238,7 +239,7 @@ const I3 = '#4B5563';
 const I4 = '#9CA3AF';
 const G = '#92750E';
 const G2 = '#B8930F';
-// const G3 = '#D4A843';
+//const G3 = '#D4A843';
 const BL = '#1E3FA0';
 const BL2 = '#2E5DC2';
 const GR = '#047857';
@@ -436,16 +437,6 @@ function Myth() {
 
 /* ══ 1. SPOILER ══ */
 function Spoiler() {
-  // coordenadas em porcentagem, compartilhadas entre SVG e cards
-  const center = { x: 50, y: 50 };
-  const nodes = [
-    { icon: '🚒', name: 'Bombeiros', x: 50, y: 10 },
-    { icon: '🚔', name: 'Pol. Militar', x: 82, y: 26 },
-    { icon: '🛡️', name: 'Defesa Civil', x: 82, y: 74 },
-    { icon: '🔍', name: 'Pol. Civil', x: 18, y: 26 },
-    { icon: '🏛️', name: 'Guarda Civil', x: 18, y: 74 },
-  ];
-
   return (
     <SL c>
       <H2
@@ -476,7 +467,6 @@ function Spoiler() {
           height: 300,
         }}
       >
-        {/* nó central */}
         <div
           style={{
             position: 'absolute',
@@ -507,38 +497,58 @@ function Spoiler() {
             Ocorrência
           </span>
         </div>
-
-        {/* linhas conectando todos os órgãos ao centro */}
         <svg
           width="100%"
           height="100%"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
           style={{ position: 'absolute', zIndex: 1 }}
         >
-          {nodes.map((n, i) => (
+          {[
+            [280, 150, 280, 12],
+            [280, 150, 480, 55],
+            [280, 150, 480, 245],
+            [280, 150, 80, 55],
+            [280, 150, 80, 245],
+          ].map(([x1, y1, x2, y2], i) => (
             <line
               key={i}
-              x1={`${center.x}%`}
-              y1={`${center.y}%`}
-              x2={`${n.x}%`}
-              y2={`${n.y}%`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
               stroke={BD2}
               strokeWidth={1}
               strokeDasharray="4 3"
             />
           ))}
         </svg>
-
-        {/* cards dos órgãos */}
-        {nodes.map((o, i) => (
+        {[
+          {
+            icon: '🚒',
+            name: 'Bombeiros',
+            s: {
+              left: '50%',
+              top: 0,
+              transform: 'translateX(-50%)',
+            },
+          },
+          { icon: '🚔', name: 'Pol. Militar', s: { right: '2%', top: '10%' } },
+          {
+            icon: '🛡️',
+            name: 'Defesa Civil',
+            s: { right: '2%', bottom: '4%' },
+          },
+          { icon: '🔍', name: 'Pol. Civil', s: { left: '2%', top: '10%' } },
+          {
+            icon: '🏛️',
+            name: 'Guarda Civil',
+            s: { left: '2%', bottom: '4%' },
+          },
+        ].map((o, i) => (
           <div
             key={i}
             style={{
               position: 'absolute',
-              left: `${o.x}%`,
-              top: `${o.y}%`,
-              transform: 'translate(-50%,-50%)',
+              ...(o.s as React.CSSProperties),
               width: 76,
               height: 68,
               borderRadius: 14,
@@ -565,7 +575,6 @@ function Spoiler() {
             </span>
           </div>
         ))}
-
         <div
           style={{
             position: 'absolute',
@@ -1238,7 +1247,6 @@ function Dashboard() {
                       height: 32,
                       borderRadius: '50%',
                       border: `2px solid ${m.c}`,
-                      transform: 'translate(-50%,-50%)',
                       animation: 'rp 2.5s ease infinite',
                     }}
                   />
@@ -2027,7 +2035,7 @@ function Closing() {
           whiteSpace: 'nowrap',
         }}
       >
-        ITCAST — Instituto de Tecnologia, Ciência e Assistência Social
+        ITCAST
       </div>
     </SL>
   );
