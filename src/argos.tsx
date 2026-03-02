@@ -236,7 +236,7 @@ const I3 = '#4B5563';
 const I4 = '#9CA3AF';
 const G = '#92750E';
 const G2 = '#B8930F';
-const G3 = '#D4A843';
+//const G3 = '#D4A843';
 const BL = '#1E3FA0';
 const BL2 = '#2E5DC2';
 const GR = '#047857';
@@ -2037,3 +2037,4 @@ function Closing() {
     </SL>
   );
 }
+
